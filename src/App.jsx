@@ -1,12 +1,18 @@
 import MenuBar from "./components/MenuBar";
 import Products from "./components/Products";
+import ProductEdit from "./components/ProductEdit";
+import NumberField from "./components/NumberField";
+import DateField from "./components/DateField";
 
 function App() {
     return (
         <div>
             <MenuBar />
             <br />
-            <Products />
+            <ProductEdit />
+            {/*<Products />*/}
+            {/*<NumberField />*/}
+            {/*<DateField />*/}
         </div>
     )
 }
