@@ -8,8 +8,12 @@ const ProductForm = (props) => {
     const [description, setDescription] = useState(props.product?.description ?? '');
     const [price, setPrice] = useState(props.product?.price ?? '');
     const [discount, setDiscount] = useState(props.product?.discount ?? '');
-    const [discountDate, setDiscountDate] = useState(props.product?.discountDate ?? '');
+    const [discountDate, setDiscountDate] = useState(props.product?.discountDate ?? null);
     const [image, setImage] = useState(props.product?.image ?? '');
+
+    if (discountDate === '') {
+        setDiscountDate(null);
+    }
 
     return (
         <>
@@ -60,6 +64,8 @@ const ProductForm = (props) => {
                 onChange={(e) => setDiscount(e.target.value)}
             />
             <DateField
+                label="Выбрать дату"
+                format="dd.MM.yyyy"
                 value={discountDate}
                 onChange={(e) => setDiscountDate(e.target.value)}
             />

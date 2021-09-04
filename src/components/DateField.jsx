@@ -1,33 +1,29 @@
-import { useState } from 'react';
-import DateFnsUtils from '@date-io/date-fns';
-import Grid from '@material-ui/core/Grid';
-import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 import 'date-fns';
+import DateFnsUtils from '@date-io/date-fns';
+import dayjs from 'dayjs';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
 
-const DateField = () => {
-    const [selectedDate, setSelectedDate] = useState(new Date());
+const DateField = (props) => {
+    const { label, format, value, onChange } = props;
 
     const handleDateChange = (date) => {
-        setSelectedDate(date);
+        onChange({ target: { value: dayjs(date).format('YYYY-MM-DD') } });
     };
 
     return (
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
-            <Grid container justifyContent="space-around">
-                <KeyboardDatePicker
-                    autoOk
-                    fullWidth
-                    // id="date-picker-dialog"
-                    variant="inline"
-                    inputVariant="outlined"
-                    label="Выбрать дату"
-                    format="dd.MM.yyyy"
-                    value={selectedDate}
-                    InputAdornmentProps={{ position: 'start' }}
-                    onChange={date => handleDateChange(date)}
-                    style={{ margin: 15 }}
-                />
-            </Grid>
+            <KeyboardDatePicker
+                autoOk
+                fullWidth
+                variant="inline"
+                inputVariant="outlined"
+                label={label}
+                format={format}
+                value={value}
+                InputAdornmentProps={{ position: 'start' }}
+                onChange={date => handleDateChange(date)}
+                style={{ margin: 15 }}
+            />
         </MuiPickersUtilsProvider>
     );
 };
