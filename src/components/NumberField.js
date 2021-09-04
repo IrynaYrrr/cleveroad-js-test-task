@@ -3,7 +3,15 @@ import TextField from '@material-ui/core/TextField';
 
 
 const NumberFormatCustom = (props) => {
-    const { inputRef, onChange, ...other } = props;
+    const {inputRef, onChange, ...other} = props;
+    console.log(props)
+
+    let withValueLimit;
+    if(props.minValue && props.maxValue){
+        withValueLimit = ({value}) => {
+            return value >= props.minValue && value <= props.maxValue
+        }
+    }
 
     return (
         <NumberFormat
@@ -19,14 +27,18 @@ const NumberFormatCustom = (props) => {
             }}
             thousandSeparator=" "
             isNumericString
-            suffix = " грн"
+            suffix={props.suffix}
             decimalSeparator=","
-            decimalScale={2}
+            decimalScale={props.decimalScale}
+            isAllowed={!withValueLimit}
+
         />
     );
 }
 
-const NumberField = () => {
+const NumberField = (props) => {
+    const {label, suffix, required, decimalScale, minValue, maxValue} = props;
+
     // const classes = useStyles();
     // const [values, setValues] = React.useState({
     //     numberFormat: '1320',
@@ -38,22 +50,27 @@ const NumberField = () => {
     //         [event.target.name]: event.target.value,
     //     });
     // };
+
+
+
     return (
-            <TextField
-                required
-                id="4"
-                label="Цена"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                name="number-format"
-                style={{margin: 15}}
-                // value={values.numberFormat}
-                // onChange={handleChange}
-                InputProps={{
-                    inputComponent: NumberFormatCustom,
-                }}
-            />
+        <TextField
+            required={required}
+            label={label}
+            fullWidth
+            margin="normal"
+            variant="outlined"
+            name="number-format"
+            style={{margin: 15}}
+            // value={values.numberFormat}
+            // onChange={handleChange}
+            // id="4"
+            InputProps={{
+                inputComponent:
+                    (props) =>
+                        NumberFormatCustom({...props, suffix, decimalScale, minValue, maxValue}),
+            }}
+        />
     );
 };
 

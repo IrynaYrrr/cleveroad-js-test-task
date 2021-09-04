@@ -36,9 +36,9 @@ export default function LayoutTextFields() {
                         variant="outlined"
                     />
 
-                    <NumberField />
+                    <NumberField label="Цена" suffix=" грн" decimalScale={2} required />
 
-                    <NumberField label="Процент скидки"/>
+                    <NumberField label="Процент скидки" suffix=" %" decimalScale={0} minValue={10} maxValue={90} />
 
                     <DateField />
 
