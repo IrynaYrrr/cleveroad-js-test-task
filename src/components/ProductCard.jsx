@@ -9,6 +9,8 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import { getDaysHumanize } from '../utils/days';
+import { useDispatch } from 'react-redux';
+import actions from '../redux/actions';
 
 const useStyles = makeStyles({
     root: {
@@ -37,6 +39,7 @@ const useStyles = makeStyles({
 
 const ProductCard = (props) => {
     const classes = useStyles();
+    const dispatch = useDispatch();
 
     const { product } = props;
 
@@ -55,6 +58,10 @@ const ProductCard = (props) => {
             }
         }
         return '';
+    };
+
+    const deleteProduct = () => {
+        dispatch(actions.deleteProduct(product));
     };
 
     const discount = getDiscount();
@@ -108,7 +115,7 @@ const ProductCard = (props) => {
                 <Button size="small" color="primary">
                     Редактировать
                 </Button>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={deleteProduct}>
                     Удалить
                 </Button>
             </CardActions>
