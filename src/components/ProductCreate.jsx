@@ -1,17 +1,18 @@
 import Container from '@material-ui/core/Container';
-import ProductsCards from './ProductsCards';
 import MenuBar from './MenuBar';
+import ProductForm from './ProductForm';
 
-const Products = () => {
+const ProductCreate = () => {
+
     return (
         <>
             <MenuBar />
             <br />
-            <Container maxWidth="lg">
-                <ProductsCards />
+            <Container maxWidth="md">
+                <ProductForm />
             </Container>
         </>
     );
 };
 
-export default Products;
+export default ProductCreate;

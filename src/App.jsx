@@ -1,20 +1,25 @@
-import MenuBar from './components/MenuBar';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Products from './components/Products';
-// import ProductEdit from "./components/ProductEdit";
-// import NumberField from "./components/NumberField";
-// import DateField from "./components/DateField";
+import ProductEdit from './components/ProductEdit';
+import ProductCreate from './components/ProductCreate';
 
-function App() {
+const App = () => {
     return (
-        <div>
-            <MenuBar />
-            <br />
-            {/*<ProductEdit />*/}
-            <Products />
-            {/*<NumberField />*/}
-            {/*<DateField />*/}
-        </div>
+        <BrowserRouter>
+            <Switch>
+                <Route path="/" exact>
+                    <Products />
+                </Route>
+                <Route path="/create" exact>
+                    <ProductCreate />
+                </Route>
+                <Route path="/product/:id" exact>
+                    <ProductEdit />
+                </Route>
+                <Redirect to="/" />
+            </Switch>
+        </BrowserRouter>
     );
-}
+};
 
 export default App;

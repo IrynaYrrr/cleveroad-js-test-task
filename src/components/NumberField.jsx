@@ -4,13 +4,13 @@ import TextField from '@material-ui/core/TextField';
 
 const NumberFormatCustom = (props) => {
     const {inputRef, onChange, ...other} = props;
-    console.log(props)
+    console.log(props);
 
     let withValueLimit;
     if(props.minValue && props.maxValue){
         withValueLimit = ({value}) => {
-            return value >= props.minValue && value <= props.maxValue
-        }
+            return value >= props.minValue && value <= props.maxValue;
+        };
     }
 
     return (
@@ -34,7 +34,7 @@ const NumberFormatCustom = (props) => {
 
         />
     );
-}
+};
 
 const NumberField = (props) => {
     const {label, suffix, required, decimalScale, minValue, maxValue} = props;
