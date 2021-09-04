@@ -1,6 +1,7 @@
+import { useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import ProductCard from "./ProductCard";
+import ProductCard from './ProductCard';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -16,33 +17,20 @@ const useStyles = makeStyles((theme) => ({
 const ProductsCards = () => {
     const classes = useStyles();
 
+    const products = useSelector((state) => state.products);
+    // console.log(products);
+
     return (
         <div className={classes.root}>
             <Grid container spacing={3}>
-                <Grid item xs>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs>
-                    <ProductCard />
-                </Grid>
-                <Grid item xs>
-                    <ProductCard />
-                </Grid>
+                {products.map((product) => (
+                    <Grid item xs key={product.id}>
+                        <ProductCard product={product} />
+                    </Grid>
+                ))}
             </Grid>
         </div>
     );
-}
+};
 
 export default ProductsCards;
