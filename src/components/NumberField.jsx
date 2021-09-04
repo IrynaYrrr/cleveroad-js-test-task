@@ -1,17 +1,13 @@
 import NumberFormat from 'react-number-format';
 import TextField from '@material-ui/core/TextField';
 
-
 const NumberFormatCustom = (props) => {
-    const {inputRef, onChange, ...other} = props;
-    console.log(props);
+    const { inputRef, onChange, ...other } = props;
+    const { suffix, decimalScale, minValue, maxValue } = props.defaultValue;
 
-    let withValueLimit;
-    if(props.minValue && props.maxValue){
-        withValueLimit = ({value}) => {
-            return value >= props.minValue && value <= props.maxValue;
-        };
-    }
+    const withValueLimit = ({ value }) => {
+        return value >= minValue && value <= maxValue;
+    };
 
     return (
         <NumberFormat
@@ -27,31 +23,17 @@ const NumberFormatCustom = (props) => {
             }}
             thousandSeparator=" "
             isNumericString
-            suffix={props.suffix}
+            suffix={suffix}
             decimalSeparator=","
-            decimalScale={props.decimalScale}
-            isAllowed={!withValueLimit}
-
+            decimalScale={decimalScale}
+            isAllowed={withValueLimit}
         />
     );
 };
 
 const NumberField = (props) => {
-    const {label, suffix, required, decimalScale, minValue, maxValue} = props;
-
-    // const classes = useStyles();
-    // const [values, setValues] = React.useState({
-    //     numberFormat: '1320',
-    // });
-    //
-    // const handleChange = (event) => {
-    //     setValues({
-    //         ...values,
-    //         [event.target.name]: event.target.value,
-    //     });
-    // };
-
-
+    const { required, label, suffix, decimalScale, minValue, maxValue, value, onChange } = props;
+    const params = { suffix, decimalScale, minValue, maxValue };
 
     return (
         <TextField
@@ -61,14 +43,12 @@ const NumberField = (props) => {
             margin="normal"
             variant="outlined"
             name="number-format"
-            style={{margin: 15}}
-            // value={values.numberFormat}
-            // onChange={handleChange}
-            // id="4"
+            style={{ margin: 15 }}
+            value={value}
+            onChange={onChange}
+            defaultValue={params}
             InputProps={{
-                inputComponent:
-                    (props) =>
-                        NumberFormatCustom({...props, suffix, decimalScale, minValue, maxValue}),
+                inputComponent: NumberFormatCustom,
             }}
         />
     );

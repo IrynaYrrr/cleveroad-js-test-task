@@ -7,15 +7,9 @@ const App = () => {
     return (
         <BrowserRouter>
             <Switch>
-                <Route path="/" exact>
-                    <Products />
-                </Route>
-                <Route path="/create" exact>
-                    <ProductCreate />
-                </Route>
-                <Route path="/product/:id" exact>
-                    <ProductEdit />
-                </Route>
+                <Route exact path="/" component={Products} />
+                <Route exact path="/create" component={ProductCreate} />
+                <Route exact path="/edit/:id" component={ProductEdit} />
                 <Redirect to="/" />
             </Switch>
         </BrowserRouter>

@@ -11,6 +11,7 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import { getDaysHumanize } from '../utils/days';
 import { useDispatch } from 'react-redux';
 import actions from '../redux/actions';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {
@@ -40,6 +41,7 @@ const useStyles = makeStyles({
 const ProductCard = (props) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const { product } = props;
 
@@ -62,6 +64,10 @@ const ProductCard = (props) => {
 
     const deleteProduct = () => {
         dispatch(actions.deleteProduct(product));
+    };
+
+    const editProduct = () => {
+        history.push(`/edit/${product.id}`);
     };
 
     const discount = getDiscount();
@@ -112,7 +118,7 @@ const ProductCard = (props) => {
                 </Typography>
             </CardActions>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button size="small" color="primary" onClick={editProduct}>
                     Редактировать
                 </Button>
                 <Button size="small" color="primary" onClick={deleteProduct}>

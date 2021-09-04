@@ -1,8 +1,8 @@
-import 'date-fns';
-import Grid from '@material-ui/core/Grid';
+import { useState } from 'react';
 import DateFnsUtils from '@date-io/date-fns';
-import {MuiPickersUtilsProvider, KeyboardDatePicker} from '@material-ui/pickers';
-import {useState} from 'react';
+import Grid from '@material-ui/core/Grid';
+import { MuiPickersUtilsProvider, KeyboardDatePicker } from '@material-ui/pickers';
+import 'date-fns';
 
 const DateField = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -23,9 +23,9 @@ const DateField = () => {
                     label="Выбрать дату"
                     format="dd.MM.yyyy"
                     value={selectedDate}
-                    InputAdornmentProps={{position: 'start'}}
+                    InputAdornmentProps={{ position: 'start' }}
                     onChange={date => handleDateChange(date)}
-                    style={{margin: 15}}
+                    style={{ margin: 15 }}
                 />
             </Grid>
         </MuiPickersUtilsProvider>
