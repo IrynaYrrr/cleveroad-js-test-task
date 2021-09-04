@@ -1,11 +1,11 @@
-const ADD_PRODUCT = 'ADD_PRODUCT';
+const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
-const addProduct = (payload) => {
+const createProduct = (payload) => {
     return {
-        type: DELETE_PRODUCT,
-        payload
+        type: CREATE_PRODUCT,
+        payload: { ...payload, id: Date.now() }
     };
 };
 
@@ -24,10 +24,10 @@ const updateProduct = (payload) => {
 };
 
 export default {
-    ADD_PRODUCT,
+    CREATE_PRODUCT,
     DELETE_PRODUCT,
     UPDATE_PRODUCT,
-    addProduct,
+    createProduct,
     deleteProduct,
     updateProduct,
 };

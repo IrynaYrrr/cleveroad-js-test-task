@@ -1,3 +1,4 @@
+import { useHistory } from 'react-router-dom';
 import dayjs from 'dayjs';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -11,7 +12,6 @@ import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import { getDaysHumanize } from '../utils/days';
 import { useDispatch } from 'react-redux';
 import actions from '../redux/actions';
-import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles({
     root: {

@@ -82,9 +82,10 @@ const useStyles = makeStyles((theme) => ({
 
 const MenuBar = () => {
     const classes = useStyles();
+    const history = useHistory();
+
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-    const history = useHistory();
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
