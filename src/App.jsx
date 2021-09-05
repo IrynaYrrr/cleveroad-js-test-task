@@ -2,8 +2,13 @@ import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import Products from './components/Products';
 import ProductEdit from './components/ProductEdit';
 import ProductCreate from './components/ProductCreate';
+import { useDispatch } from 'react-redux';
+import asyncActions from './redux/asyncActions';
 
 const App = () => {
+    const dispatch = useDispatch();
+    dispatch(asyncActions.loadProducts());
+
     return (
         <BrowserRouter>
             <Switch>

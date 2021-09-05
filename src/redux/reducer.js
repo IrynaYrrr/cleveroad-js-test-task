@@ -6,6 +6,8 @@ const reducer = (state = initialState(), action) => {
     console.log(action);
 
     switch (action.type) {
+        case actions.LOAD_PRODUCTS:
+            return { ...state, products: [...action.products] };
         case actions.CREATE_PRODUCT:
             return { ...state, products: [...state.products, action.product] };
         case actions.DELETE_PRODUCT:

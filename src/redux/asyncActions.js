@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import actions from './actions';
 
@@ -8,6 +8,21 @@ const uploadImage = async (imageFile) => {
     await uploadBytes(storageRef, imageFile.file);
     const url = await getDownloadURL(storageRef);
     return url;
+};
+
+const loadProducts = () => {
+    return (dispatch) => {
+        getDocs(collection(getFirestore(), 'products111'))
+            .then((querySnapshot) => {
+                const products = [];
+
+                querySnapshot.forEach((doc) => {
+                    products.push(doc.data());
+                });
+
+                dispatch(actions.loadProducts(products));
+            });
+    };
 };
 
 const createProduct = (product) => {
@@ -34,4 +49,4 @@ const createProduct = (product) => {
     }
 };
 
-export default { createProduct };
+export default { loadProducts, createProduct };
