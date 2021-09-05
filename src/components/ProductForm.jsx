@@ -5,11 +5,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Box from '@material-ui/core/Box';
 import NumberField from './NumberField';
 import DateField from './DateField';
 import ImageUpload from './ImageUpload';
 import actions from '../redux/actions';
-import { Box } from '@material-ui/core';
+import asyncActions from '../redux/asyncActions';
 
 const useStyles = makeStyles({
     marginTop: {
@@ -49,13 +50,14 @@ const ProductForm = (props) => {
             price,
             discount,
             discountDate,
-            image
+            image,
+            imageFile
         };
 
         if (product.id !== undefined) {
             dispatch(actions.updateProduct(product));
         } else {
-            dispatch(actions.createProduct(product));
+            dispatch(asyncActions.createProduct(product));
         }
 
         history.push('/');

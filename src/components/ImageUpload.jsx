@@ -43,8 +43,7 @@ const ImageUpload = (props) => {
     const { image, imageFile, setImageFile } = props;
 
     const onChange = async (imageList) => {
-        const file = { title: imageList[0].file.name, base64: imageList[0].base64 };
-        setImageFile(file);
+        setImageFile(imageList[0]);
     };
 
     return (

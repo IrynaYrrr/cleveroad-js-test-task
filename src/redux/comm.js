@@ -1,7 +1,7 @@
 const getEditedProducts = (state, action) => {
     const products = state.products.map((p) => {
-        if (p.id === action.payload.id) {
-            p = action.payload;
+        if (p.id === action.product.id) {
+            p = action.product;
         }
         return p;
     });

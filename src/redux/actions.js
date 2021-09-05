@@ -2,24 +2,24 @@ const CREATE_PRODUCT = 'CREATE_PRODUCT';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 
-const createProduct = (payload) => {
+const createProduct = (product) => {
     return {
         type: CREATE_PRODUCT,
-        payload: { ...payload, id: Date.now() }
+        product
     };
 };
 
-const deleteProduct = (payload) => {
+const deleteProduct = (product) => {
     return {
         type: DELETE_PRODUCT,
-        payload
+        product
     };
 };
 
-const updateProduct = (payload) => {
+const updateProduct = (product) => {
     return {
         type: UPDATE_PRODUCT,
-        payload
+        product
     };
 };
 
