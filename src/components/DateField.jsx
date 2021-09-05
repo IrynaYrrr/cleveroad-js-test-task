@@ -22,7 +22,6 @@ const DateField = (props) => {
                 value={value}
                 InputAdornmentProps={{ position: 'start' }}
                 onChange={date => handleDateChange(date)}
-                style={{ margin: 15 }}
             />
         </MuiPickersUtilsProvider>
     );

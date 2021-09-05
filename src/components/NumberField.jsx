@@ -43,7 +43,6 @@ const NumberField = (props) => {
             margin="normal"
             variant="outlined"
             name="number-format"
-            style={{ margin: 15 }}
             value={value}
             onChange={onChange}
             defaultValue={params}

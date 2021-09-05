@@ -9,10 +9,14 @@ import NumberField from './NumberField';
 import DateField from './DateField';
 import ImageUpload from './ImageUpload';
 import actions from '../redux/actions';
+import { Box } from '@material-ui/core';
 
 const useStyles = makeStyles({
-    buttonsGrid: {
-        margin: 15,
+    marginTop: {
+        marginTop: 15,
+    },
+    marginBottom: {
+        marginBottom: 10,
     },
 });
 
@@ -58,16 +62,18 @@ const ProductForm = (props) => {
     };
 
     return (
-        <>
+        <Box
+            className={classes.marginBottom}
+        >
             <TextField
                 required
                 label="Наименование товара"
-                style={{ margin: 15 }}
                 fullWidth
                 margin="normal"
                 variant="outlined"
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
+                className={classes.marginBottom}
             />
             <ImageUpload
                 image={image}
@@ -77,7 +83,6 @@ const ProductForm = (props) => {
             />
             <TextField
                 label="Описание товара"
-                style={{ margin: 15 }}
                 fullWidth
                 multiline
                 margin="normal"
@@ -104,18 +109,22 @@ const ProductForm = (props) => {
                 value={discount}
                 onChange={(e) => setDiscount(e.target.value)}
             />
-            <DateField
-                label="Выбрать дату"
-                format="dd.MM.yyyy"
-                value={discountDate}
-                onChange={(e) => setDiscountDate(e.target.value)}
-            />
+            <Box
+                className={classes.marginTop}
+            >
+                <DateField
+                    label="Выбрать дату"
+                    format="dd.MM.yyyy"
+                    value={discountDate}
+                    onChange={(e) => setDiscountDate(e.target.value)}
+                />
+            </Box>
             <Grid
                 container
                 direction="row"
                 justifyContent="space-between"
                 alignItems="center"
-                className={classes.buttonsGrid}
+                className={classes.marginTop}
             >
                 <Grid item>
                     <Button
@@ -136,7 +145,7 @@ const ProductForm = (props) => {
                     </Button>
                 </Grid>
             </Grid>
-        </>
+        </Box>
     );
 };
 
