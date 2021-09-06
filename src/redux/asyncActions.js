@@ -1,6 +1,8 @@
-import { getFirestore, collection, getDocs, addDoc, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import actions from './actions';
+
+const productsCollection = 'products111';
 
 const uploadImage = async (imageFile) => {
     const storage = getStorage();
@@ -19,7 +21,7 @@ const getDefaultImage = async () => {
 
 const loadProducts = () => {
     return (dispatch) => {
-        getDocs(collection(getFirestore(), 'products111'))
+        getDocs(collection(getFirestore(), productsCollection))
             .then((querySnapshot) => {
                 const products = [];
 
@@ -40,8 +42,7 @@ const createProduct = (product) => {
             uploadImage(product.imageFile).then((url) => {
                 product.image = url;
                 delete product.imageFile;
-                // addDoc(collection(getFirestore(), 'products111', 'DC'), product);
-                setDoc(doc(getFirestore(), 'products111', product.id), product);
+                setDoc(doc(getFirestore(), productsCollection, product.id), product);
             }).then(() => {
                 dispatch(actions.createProduct(product));
             });
@@ -51,8 +52,7 @@ const createProduct = (product) => {
         return (dispatch) => {
             getDefaultImage().then((url) => {
                 product.image = url;
-                // addDoc(collection(getFirestore(), 'products111', 'DC'), product);
-                setDoc(doc(getFirestore(), 'products111', product.id), product);
+                setDoc(doc(getFirestore(), productsCollection, product.id), product);
             }).then(() => {
                 dispatch(actions.createProduct(product));
             });
@@ -60,8 +60,7 @@ const createProduct = (product) => {
     } else {
         delete product.imageFile;
         return (dispatch) => {
-            // addDoc(collection(getFirestore(), 'products111', 'DC'), product)
-            setDoc(doc(getFirestore(), 'products111', product.id), product)
+            setDoc(doc(getFirestore(), productsCollection, product.id), product)
                 .then(() => {
                     dispatch(actions.createProduct(product));
                 });
@@ -71,7 +70,7 @@ const createProduct = (product) => {
 
 const deleteProduct = (product) => {
     return (dispatch) => {
-        deleteDoc(doc(getFirestore(), 'products111', product.id), product)
+        deleteDoc(doc(getFirestore(), productsCollection, product.id), product)
             .then(() => {
                 dispatch(actions.deleteProduct(product));
             });
@@ -84,7 +83,7 @@ const updateProduct = (product) => {
             uploadImage(product.imageFile).then((url) => {
                 product.image = url;
                 delete product.imageFile;
-                updateDoc(doc(getFirestore(), 'products111', product.id), product);
+                updateDoc(doc(getFirestore(), productsCollection, product.id), product);
             }).then(() => {
                 dispatch(actions.updateProduct(product));
             });
@@ -92,7 +91,7 @@ const updateProduct = (product) => {
     } else {
         delete product.imageFile;
         return (dispatch) => {
-            updateDoc(doc(getFirestore(), 'products111', product.id), product)
+            updateDoc(doc(getFirestore(), productsCollection, product.id), product)
                 .then(() => {
                     dispatch(actions.updateProduct(product));
                 });
