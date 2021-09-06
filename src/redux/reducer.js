@@ -2,8 +2,6 @@ import actions from './actions';
 import comm from './comm';
 
 const reducer = (state = { products: [] }, action) => {
-    console.log(action);
-
     switch (action.type) {
         case actions.LOAD_PRODUCTS:
             return { ...state, products: [...action.products] };
