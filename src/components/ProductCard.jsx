@@ -11,7 +11,7 @@ import Typography from '@material-ui/core/Typography';
 import LocalOfferIcon from '@material-ui/icons/LocalOffer';
 import { getDaysHumanize } from '../utils/days';
 import { useDispatch } from 'react-redux';
-import actions from '../redux/actions';
+import asyncActions from '../redux/asyncActions';
 
 const useStyles = makeStyles({
     root: {
@@ -63,7 +63,7 @@ const ProductCard = (props) => {
     };
 
     const deleteProduct = () => {
-        dispatch(actions.deleteProduct(product));
+        dispatch(asyncActions.deleteProduct(product));
     };
 
     const editProduct = () => {

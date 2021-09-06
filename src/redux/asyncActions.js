@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc, getDocs } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import actions from './actions';
 
@@ -33,14 +33,15 @@ const loadProducts = () => {
 };
 
 const createProduct = (product) => {
-    product.id = Date.now();
+    product.id = Date.now().toString();
 
     if (product.imageFile) {
         return (dispatch) => {
             uploadImage(product.imageFile).then((url) => {
                 product.image = url;
                 delete product.imageFile;
-                addDoc(collection(getFirestore(), 'products111'), product);
+                // addDoc(collection(getFirestore(), 'products111', 'DC'), product);
+                setDoc(doc(getFirestore(), 'products111', product.id), product);
             }).then(() => {
                 dispatch(actions.createProduct(product));
             });
@@ -50,7 +51,8 @@ const createProduct = (product) => {
         return (dispatch) => {
             getDefaultImage().then((url) => {
                 product.image = url;
-                addDoc(collection(getFirestore(), 'products111'), product);
+                // addDoc(collection(getFirestore(), 'products111', 'DC'), product);
+                setDoc(doc(getFirestore(), 'products111', product.id), product);
             }).then(() => {
                 dispatch(actions.createProduct(product));
             });
@@ -58,7 +60,8 @@ const createProduct = (product) => {
     } else {
         delete product.imageFile;
         return (dispatch) => {
-            addDoc(collection(getFirestore(), 'products111'), product)
+            // addDoc(collection(getFirestore(), 'products111', 'DC'), product)
+            setDoc(doc(getFirestore(), 'products111', product.id), product)
                 .then(() => {
                     dispatch(actions.createProduct(product));
                 });
@@ -66,4 +69,13 @@ const createProduct = (product) => {
     }
 };
 
-export default { loadProducts, createProduct };
+const deleteProduct = (product) => {
+    return (dispatch) => {
+        deleteDoc(doc(getFirestore(), 'products111', product.id), product)
+            .then(() => {
+                dispatch(actions.deleteProduct(product));
+            });
+    };
+};
+
+export default { loadProducts, createProduct, deleteProduct };
