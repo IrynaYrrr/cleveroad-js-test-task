@@ -3,7 +3,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import actions from './actions';
 import initialState from './initialState';
 
-const productsCollection = 'products111';
+const productsCollection = 'products';
 
 const uploadImage = async (imageFile) => {
     const storage = getStorage();
