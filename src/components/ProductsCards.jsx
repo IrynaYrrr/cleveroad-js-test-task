@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const ProductsCards = () => {
     const classes = useStyles();
 
-    const products = useSelector((state) => state.products);
+    const products = useSelector((state) => state.productsReducer.products);
 
     return (
         <div className={classes.root}>

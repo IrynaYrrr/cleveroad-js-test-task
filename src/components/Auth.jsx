@@ -1,19 +1,13 @@
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { useDispatch } from 'react-redux';
 import GoogleButton from 'react-google-button';
 import Box from '@material-ui/core/Box';
+import asyncActions from '../redux/asyncActions';
 
 const Auth = () => {
-    const handleClick = () => {
-        const provider = new GoogleAuthProvider();
-        const auth = getAuth();
+    const dispatch = useDispatch();
 
-        signInWithPopup(auth, provider)
-            .then((result) => {
-                // console.log(result);
-            })
-            .catch((error) => {
-                console.error(error);
-            });
+    const handleClick = () => {
+        dispatch(asyncActions.login());
     };
 
     return (

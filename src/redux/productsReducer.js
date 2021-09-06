@@ -1,7 +1,7 @@
 import actions from './actions';
 import comm from './comm';
 
-const reducer = (state = { products: [] }, action) => {
+const productsReducer = (state = { products: [] }, action) => {
     switch (action.type) {
         case actions.LOAD_PRODUCTS:
             return { ...state, products: [...action.products] };
@@ -16,4 +16,4 @@ const reducer = (state = { products: [] }, action) => {
     }
 };
 
-export default reducer;
+export default productsReducer;

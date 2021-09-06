@@ -1,5 +1,6 @@
 import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from 'firebase/auth';
 import actions from './actions';
 import initialState from './initialState';
 
@@ -125,4 +126,38 @@ const updateProduct = (product) => {
     }
 };
 
-export default { loadProducts, restoreProducts, createProduct, deleteProduct, updateProduct };
+const login = () => {
+    const provider = new GoogleAuthProvider();
+    const auth = getAuth();
+
+    return (dispatch) => {
+        signInWithPopup(auth, provider)
+            .then((result) => {
+                const user = {};
+                if (result?.user?.email) {
+                    user.email = result.user.email;
+                }
+                dispatch(actions.setUser(user));
+            });
+    };
+};
+
+const logout = () => {
+    const auth = getAuth();
+
+    return (dispatch) => {
+        signOut(auth).then(() => {
+            dispatch(actions.setUser(null));
+        });
+    };
+};
+
+export default {
+    loadProducts,
+    restoreProducts,
+    createProduct,
+    deleteProduct,
+    updateProduct,
+    login,
+    logout
+};

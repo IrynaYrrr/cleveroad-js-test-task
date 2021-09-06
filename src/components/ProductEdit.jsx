@@ -5,7 +5,7 @@ import ProductForm from './ProductForm';
 
 const ProductEdit = (props) => {
     const id = props.match.params.id;
-    const product = useSelector((state) => state.products.find((p) => p.id === id));
+    const product = useSelector((state) => state.productsReducer.products.find((p) => p.id === id));
 
     return (
         <>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -17,7 +17,6 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
 import Tooltip from '@material-ui/core/Tooltip';
-import { getAuth, signOut } from 'firebase/auth';
 import asyncActions from '../redux/asyncActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -61,18 +60,14 @@ const MenuBar = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
-    const auth = getAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
-    const [userEmail, setUserEmail] = useState('');
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
-    auth.onAuthStateChanged((u) => {
-        setUserEmail(u?.email ?? '');
-    });
+    const user = useSelector((state) => state.userReducer.user);
 
     const handleProductsList = () => {
         history.push('/');
@@ -110,7 +105,7 @@ const MenuBar = () => {
     };
 
     const handleSignOut = () => {
-        signOut(auth);
+        dispatch(asyncActions.logout());
         handleMobileMenuClose();
     };
 
@@ -127,7 +122,7 @@ const MenuBar = () => {
         >
             <MenuItem>
                 <EmailIcon />
-                &nbsp;{userEmail}
+                &nbsp;{user?.email}
             </MenuItem>
             <MenuItem onClick={handleSignOut}>
                 <ExitToAppIcon />

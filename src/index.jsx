@@ -5,6 +5,7 @@ import store from './redux/store';
 import { initializeApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import App from './App';
+import actions from './redux/actions';
 import asyncActions from './redux/asyncActions';
 import './index.css';
 
@@ -17,7 +18,10 @@ initializeApp({
     appId: '1:390461714765:web:62b826debdffcee9ae0704'
 });
 
-getAuth();
+const auth = getAuth();
+auth.onAuthStateChanged((user) => {
+    store.dispatch(actions.setUser(user));
+});
 
 store.dispatch(asyncActions.loadProducts());
 
