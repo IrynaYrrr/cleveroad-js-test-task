@@ -18,8 +18,11 @@ const useStyles = makeStyles({
         maxWidth: 345,
         backgroundColor: '#e2f1f8',
     },
+    title: {
+        minHeight: 64,
+    },
     description: {
-        minHeight: 185,
+        minHeight: 195,
     },
     icon: {
         color: '#f57f17',
@@ -76,7 +79,7 @@ const ProductCard = (props) => {
     return (
         <Card className={classes.root}>
             <CardActionArea>
-                {discount ?
+                {discount && discountDays ?
                     <LocalOfferIcon className={classes.icon} fontSize="large" />
                     :
                     <LocalOfferIcon className={classes.iconInvisible} fontSize="large" />
@@ -87,7 +90,7 @@ const ProductCard = (props) => {
                     title={product.title}
                 />
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="h2">
+                    <Typography gutterBottom variant="h5" component="h2" className={classes.title}>
                         {product.title}
                     </Typography>
                     <Typography variant="body2" color="textSecondary" component="p" className={classes.description}>
