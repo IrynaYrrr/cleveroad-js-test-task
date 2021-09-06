@@ -9,7 +9,6 @@ import Box from '@material-ui/core/Box';
 import NumberField from './NumberField';
 import DateField from './DateField';
 import ImageUpload from './ImageUpload';
-import actions from '../redux/actions';
 import asyncActions from '../redux/asyncActions';
 
 const useStyles = makeStyles({
@@ -55,7 +54,7 @@ const ProductForm = (props) => {
         };
 
         if (product.id !== undefined) {
-            dispatch(actions.updateProduct(product));
+            dispatch(asyncActions.updateProduct(product));
         } else {
             dispatch(asyncActions.createProduct(product));
         }

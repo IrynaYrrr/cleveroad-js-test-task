@@ -4,7 +4,7 @@ import MenuBar from './MenuBar';
 import ProductForm from './ProductForm';
 
 const ProductEdit = (props) => {
-    const id = Number(props.match.params.id);
+    const id = props.match.params.id;
     const product = useSelector((state) => state.products.find((p) => p.id === id));
 
     return (

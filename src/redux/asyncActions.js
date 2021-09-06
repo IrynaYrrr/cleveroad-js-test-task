@@ -1,4 +1,4 @@
-import { getFirestore, collection, getDocs, addDoc, doc, setDoc, deleteDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, addDoc, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import actions from './actions';
 
@@ -78,4 +78,26 @@ const deleteProduct = (product) => {
     };
 };
 
-export default { loadProducts, createProduct, deleteProduct };
+const updateProduct = (product) => {
+    if (product.imageFile) {
+        return (dispatch) => {
+            uploadImage(product.imageFile).then((url) => {
+                product.image = url;
+                delete product.imageFile;
+                updateDoc(doc(getFirestore(), 'products111', product.id), product);
+            }).then(() => {
+                dispatch(actions.updateProduct(product));
+            });
+        };
+    } else {
+        delete product.imageFile;
+        return (dispatch) => {
+            updateDoc(doc(getFirestore(), 'products111', product.id), product)
+                .then(() => {
+                    dispatch(actions.updateProduct(product));
+                });
+        };
+    }
+};
+
+export default { loadProducts, createProduct, deleteProduct, updateProduct };
