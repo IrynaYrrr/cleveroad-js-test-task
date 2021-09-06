@@ -17,6 +17,7 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
 import Tooltip from '@material-ui/core/Tooltip';
+import { getAuth, signOut } from 'firebase/auth';
 import asyncActions from '../redux/asyncActions';
 
 const useStyles = makeStyles((theme) => ({
@@ -60,12 +61,18 @@ const MenuBar = () => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
+    const auth = getAuth();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
+    const [userEmail, setUserEmail] = useState('');
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
+
+    auth.onAuthStateChanged((u) => {
+        setUserEmail(u?.email ?? '');
+    });
 
     const handleProductsList = () => {
         history.push('/');
@@ -100,6 +107,10 @@ const MenuBar = () => {
         dispatch(asyncActions.restoreProducts());
     };
 
+    const handleSignOut = () => {
+        signOut(auth);
+    };
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -113,9 +124,9 @@ const MenuBar = () => {
         >
             <MenuItem>
                 <EmailIcon />
-                &nbsp;aaa@gmail.com
+                &nbsp;{userEmail}
             </MenuItem>
-            <MenuItem onClick={handleMenuClose}>
+            <MenuItem onClick={handleSignOut}>
                 <ExitToAppIcon />
                 &nbsp;Logout
             </MenuItem>

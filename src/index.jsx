@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 import App from './App';
 import asyncActions from './redux/asyncActions';
 import './index.css';
@@ -15,6 +16,8 @@ initializeApp({
     messagingSenderId: '390461714765',
     appId: '1:390461714765:web:62b826debdffcee9ae0704'
 });
+
+getAuth();
 
 store.dispatch(asyncActions.loadProducts());
 
