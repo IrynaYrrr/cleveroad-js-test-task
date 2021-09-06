@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
+import dayjs from 'dayjs';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
@@ -20,16 +21,79 @@ const useStyles = makeStyles({
     },
 });
 
+const checkTitle = (title, setTitleError) => {
+    if (title.length < 5 || title.length > 60) {
+        setTitleError({ error: true, helperText: 'must be from 5 to 60' });
+        return true;
+    }
+
+    return false;
+};
+
+const checkDescription = (description, setDescriptionError) => {
+    if (description.length > 200) {
+        setDescriptionError({ error: true, helperText: 'must be less then 200' });
+        return true;
+    }
+
+    return false;
+};
+
+const checkPrice = (price, setPriceError) => {
+    if (price < 0.01 || price > 99999999.99) {
+        setPriceError({ error: true, helperText: 'must be from 0.01 to 99999999.99' });
+        return true;
+    }
+
+    return false;
+};
+
+const checkDiscount = (discount, setDiscountError) => {
+    if (!discount) {
+        return false;
+    }
+
+    if (discount < 10 || discount > 90) {
+        setDiscountError({ error: true, helperText: 'must be from 10 to 90' });
+        return true;
+    }
+
+    return false;
+};
+
+const checkDiscountDate = (discount, discountDate, setDiscountDateError) => {
+    if (!discount) {
+        return false;
+    }
+
+    if (dayjs().isAfter(dayjs(discountDate))) {
+        setDiscountDateError({ error: true, helperText: 'must be in future' });
+        return true;
+    }
+
+    return false;
+};
+
 const ProductForm = (props) => {
     const classes = useStyles();
     const history = useHistory();
     const dispatch = useDispatch();
 
     const [title, setTitle] = useState(props.product?.title ?? '');
+    const [titleError, setTitleError] = useState({ error: false, helperText: '' });
+
     const [description, setDescription] = useState(props.product?.description ?? '');
+    const [descriptionError, setDescriptionError] = useState({ error: false, helperText: '' });
+
     const [price, setPrice] = useState(props.product?.price ?? '');
+    const [priceError, setPriceError] = useState({ error: false, helperText: '' });
+
     const [discount, setDiscount] = useState(props.product?.discount ?? '');
+    const [discountError, setDiscountError] = useState({ error: false, helperText: '' });
+
     const [discountDate, setDiscountDate] = useState(props.product?.discountDate ?? null);
+    const [discountDateError, setDiscountDateError] = useState({ error: false, helperText: '' });
+
     const [image, setImage] = useState(props.product?.image ?? '');
     const [imageFile, setImageFile] = useState(null);
 
@@ -42,6 +106,26 @@ const ProductForm = (props) => {
     };
 
     const handleSaveClick = () => {
+        if (checkTitle(title, setTitleError)) {
+            return;
+        }
+
+        if (checkDescription(description, setDescriptionError)) {
+            return;
+        }
+
+        if (checkPrice(price, setPriceError)) {
+            return;
+        }
+
+        if (checkDiscount(discount, setDiscountError)) {
+            return;
+        }
+
+        if (checkDiscountDate(discount, discountDate, setDiscountDateError)) {
+            return;
+        }
+
         const product = {
             id: props.product?.id,
             title,
@@ -68,6 +152,8 @@ const ProductForm = (props) => {
         >
             <TextField
                 required
+                error={titleError.error}
+                helperText={titleError.helperText}
                 label="Наименование товара"
                 fullWidth
                 margin="normal"
@@ -83,6 +169,8 @@ const ProductForm = (props) => {
                 setImageFile={setImageFile}
             />
             <TextField
+                error={descriptionError.error}
+                helperText={descriptionError.helperText}
                 label="Описание товара"
                 fullWidth
                 multiline
@@ -93,6 +181,8 @@ const ProductForm = (props) => {
             />
             <NumberField
                 required
+                error={priceError.error}
+                helperText={priceError.helperText}
                 label="Цена"
                 suffix=" грн"
                 decimalScale={2}
@@ -102,6 +192,8 @@ const ProductForm = (props) => {
                 onChange={(e) => setPrice(e.target.value)}
             />
             <NumberField
+                error={discountError.error}
+                helperText={discountError.helperText}
                 label="Процент скидки"
                 suffix=" %"
                 decimalScale={0}
@@ -114,7 +206,9 @@ const ProductForm = (props) => {
                 className={classes.marginTop}
             >
                 <DateField
-                    label="Выбрать дату"
+                    error={discountDateError.error}
+                    helperText={discountDateError.helperText}
+                    label="Скидка до"
                     format="dd.MM.yyyy"
                     value={discountDate}
                     onChange={(e) => setDiscountDate(e.target.value)}
@@ -133,7 +227,7 @@ const ProductForm = (props) => {
                         color="primary"
                         onClick={handleSaveClick}
                     >
-                        Сохранить
+                        Save
                     </Button>
                 </Grid>
                 <Grid item>
@@ -142,7 +236,7 @@ const ProductForm = (props) => {
                         color="secondary"
                         onClick={handleCancelClick}
                     >
-                        Отменить
+                        Cancel
                     </Button>
                 </Grid>
             </Grid>

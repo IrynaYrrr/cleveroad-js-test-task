@@ -32,12 +32,14 @@ const NumberFormatCustom = (props) => {
 };
 
 const NumberField = (props) => {
-    const { required, label, suffix, decimalScale, minValue, maxValue, value, onChange } = props;
+    const { required, label, suffix, decimalScale, minValue, maxValue, value, onChange, error, helperText } = props;
     const params = { suffix, decimalScale, minValue, maxValue };
 
     return (
         <TextField
             required={required}
+            error={error}
+            helperText={helperText}
             label={label}
             fullWidth
             margin="normal"
