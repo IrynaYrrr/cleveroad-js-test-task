@@ -1,20 +1,23 @@
 import { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { alpha, makeStyles } from '@material-ui/core/styles';
+import { useDispatch } from 'react-redux';
+import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import LocalShippingIcon from '@material-ui/icons/LocalShipping';
 import AddBoxIcon from '@material-ui/icons/AddBox';
 import EmailIcon from '@material-ui/icons/Email';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import RefreshIcon from '@material-ui/icons/Refresh';
+import SettingsBackupRestoreIcon from '@material-ui/icons/SettingsBackupRestore';
+import Tooltip from '@material-ui/core/Tooltip';
+import asyncActions from '../redux/asyncActions';
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -24,34 +27,7 @@ const useStyles = makeStyles((theme) => ({
         marginRight: theme.spacing(2),
     },
     title: {
-        display: 'none',
-        [theme.breakpoints.up('sm')]: {
-            display: 'block',
-        },
-    },
-    search: {
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: alpha(theme.palette.common.white, 0.15),
-        '&:hover': {
-            backgroundColor: alpha(theme.palette.common.white, 0.25),
-        },
-        marginRight: theme.spacing(2),
-        marginLeft: 0,
-        width: '100%',
-        [theme.breakpoints.up('sm')]: {
-            marginLeft: theme.spacing(3),
-            width: 'auto',
-        },
-    },
-    searchIcon: {
-        padding: theme.spacing(0, 2),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
+        display: 'block',
     },
     inputRoot: {
         color: 'inherit',
@@ -83,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
 const MenuBar = () => {
     const classes = useStyles();
     const history = useHistory();
+    const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = useState(null);
@@ -113,6 +90,14 @@ const MenuBar = () => {
 
     const handleProductAdd = () => {
         history.push('/create');
+    };
+
+    const handleRefresh = () => {
+        dispatch(asyncActions.loadProducts());
+    };
+
+    const handleRestore = () => {
+        dispatch(asyncActions.loadProducts());
     };
 
     const menuId = 'primary-search-account-menu';
@@ -149,10 +134,22 @@ const MenuBar = () => {
             onClose={handleMobileMenuClose}
         >
             <MenuItem onClick={handleProductAdd}>
-                <IconButton aria-label="show 4 new mails" color="inherit">
+                <IconButton aria-label="Add product" color="inherit">
                     <AddBoxIcon />
                 </IconButton>
                 <p>Add product</p>
+            </MenuItem>
+            <MenuItem onClick={handleRefresh}>
+                <IconButton aria-label="Refresh" color="inherit">
+                    <RefreshIcon />
+                </IconButton>
+                <p>Refresh</p>
+            </MenuItem>
+            <MenuItem onClick={handleRestore}>
+                <IconButton aria-label="Restore products" color="inherit">
+                    <SettingsBackupRestoreIcon />
+                </IconButton>
+                <p>Restore products</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -184,27 +181,32 @@ const MenuBar = () => {
                     <Typography className={classes.title} variant="h6" noWrap>
                         DeliveryNUTS
                     </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
                     <div className={classes.grow} />
                     <div className={classes.sectionDesktop}>
-                        <IconButton
-                            color="inherit"
-                            onClick={handleProductAdd}
-                        >
-                            <AddBoxIcon />
-                        </IconButton>
+                        <Tooltip title="Add Product">
+                            <IconButton
+                                color="inherit"
+                                onClick={handleProductAdd}
+                            >
+                                <AddBoxIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Refresh">
+                            <IconButton
+                                color="inherit"
+                                onClick={handleRefresh}
+                            >
+                                <RefreshIcon />
+                            </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Restore products">
+                            <IconButton
+                                color="inherit"
+                                onClick={handleRestore}
+                            >
+                                <SettingsBackupRestoreIcon />
+                            </IconButton>
+                        </Tooltip>
                         <IconButton
                             edge="end"
                             aria-label="account of current user"
