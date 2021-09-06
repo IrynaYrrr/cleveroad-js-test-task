@@ -70,7 +70,7 @@ const createProduct = (product) => {
 
 const deleteProduct = (product) => {
     return (dispatch) => {
-        deleteDoc(doc(getFirestore(), productsCollection, product.id), product)
+        deleteDoc(doc(getFirestore(), productsCollection, product.id))
             .then(() => {
                 dispatch(actions.deleteProduct(product));
             });
