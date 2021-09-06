@@ -101,14 +101,17 @@ const MenuBar = () => {
 
     const handleRefresh = () => {
         dispatch(asyncActions.loadProducts());
+        handleMobileMenuClose();
     };
 
     const handleRestore = () => {
         dispatch(asyncActions.restoreProducts());
+        handleMobileMenuClose();
     };
 
     const handleSignOut = () => {
         signOut(auth);
+        handleMobileMenuClose();
     };
 
     const menuId = 'primary-search-account-menu';
