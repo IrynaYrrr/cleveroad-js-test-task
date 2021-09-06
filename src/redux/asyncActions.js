@@ -10,6 +10,13 @@ const uploadImage = async (imageFile) => {
     return url;
 };
 
+const getDefaultImage = async () => {
+    const storage = getStorage();
+    const storageRef = ref(storage, 'default/noimage.jpg');
+    const url = await getDownloadURL(storageRef);
+    return url;
+};
+
 const loadProducts = () => {
     return (dispatch) => {
         getDocs(collection(getFirestore(), 'products111'))
@@ -33,6 +40,16 @@ const createProduct = (product) => {
             uploadImage(product.imageFile).then((url) => {
                 product.image = url;
                 delete product.imageFile;
+                addDoc(collection(getFirestore(), 'products111'), product);
+            }).then(() => {
+                dispatch(actions.createProduct(product));
+            });
+        };
+    } else if (!product.image) {
+        delete product.imageFile;
+        return (dispatch) => {
+            getDefaultImage().then((url) => {
+                product.image = url;
                 addDoc(collection(getFirestore(), 'products111'), product);
             }).then(() => {
                 dispatch(actions.createProduct(product));
