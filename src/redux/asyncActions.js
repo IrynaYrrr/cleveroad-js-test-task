@@ -1,6 +1,7 @@
 import { getFirestore, collection, getDocs, doc, setDoc, deleteDoc, updateDoc } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import actions from './actions';
+import initialState from './initialState';
 
 const productsCollection = 'products111';
 
@@ -30,6 +31,31 @@ const loadProducts = () => {
                 });
 
                 dispatch(actions.loadProducts(products));
+            });
+    };
+};
+
+const restoreProducts = () => {
+    const deletePromises = [];
+    const createPromises = [];
+
+    return (dispatch) => {
+        getDocs(collection(getFirestore(), productsCollection))
+            .then((querySnapshot) => {
+                querySnapshot.forEach((q) => {
+                    deletePromises.push(deleteDoc(doc(getFirestore(), productsCollection, q.id)));
+                });
+                return Promise.all(deletePromises);
+            })
+            .then(() => {
+                const products = initialState().products;
+                products.forEach((p) => {
+                    createPromises.push(setDoc(doc(getFirestore(), productsCollection, p.id), p));
+                });
+                return Promise.all(createPromises);
+            })
+            .then(() => {
+                dispatch(loadProducts());
             });
     };
 };
@@ -99,4 +125,4 @@ const updateProduct = (product) => {
     }
 };
 
-export default { loadProducts, createProduct, deleteProduct, updateProduct };
+export default { loadProducts, restoreProducts, createProduct, deleteProduct, updateProduct };

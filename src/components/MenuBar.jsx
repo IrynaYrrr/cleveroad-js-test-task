@@ -97,7 +97,7 @@ const MenuBar = () => {
     };
 
     const handleRestore = () => {
-        dispatch(asyncActions.loadProducts());
+        dispatch(asyncActions.restoreProducts());
     };
 
     const menuId = 'primary-search-account-menu';

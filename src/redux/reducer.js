@@ -1,8 +1,7 @@
-import initialState from './initialState';
 import actions from './actions';
 import comm from './comm';
 
-const reducer = (state = initialState(), action) => {
+const reducer = (state = { products: [] }, action) => {
     console.log(action);
 
     switch (action.type) {
